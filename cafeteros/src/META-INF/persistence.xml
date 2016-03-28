@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="cafeteros" transaction-type="RESOURCE_LOCAL">
+		<class>ca.cafeteros.entities.User</class>
+		<class>ca.cafeteros.entities.Role</class>
+		<class>ca.cafeteros.entities.UserRole</class>
+		<class>ca.cafeteros.entities.Log</class>
+		<class>ca.cafeteros.entities.Setting</class>
+		<class>ca.cafeteros.entities.Team</class>
+		<class>ca.cafeteros.entities.Text</class>
+		<class>ca.cafeteros.entities.Parameter</class>
+		<class>ca.cafeteros.entities.ParameterValue</class>
+		<class>ca.cafeteros.entities.Detail</class>
+		<class>ca.cafeteros.entities.TextReference</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/cafeteros"/>
+			<property name="javax.persistence.jdbc.user" value="myself"/>
+			<property name="javax.persistence.jdbc.password" value="www.myself.com"/>
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+		</properties>
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,25 @@
+COUNTER	DATE	LEVEL	USER	MESSAGE	CLASS	METHOD	LINE	
+1	2016/01/04 15:25:49	DEBUG	17	value of a variable	ca.cafeteros.test.Log	main	40	
+2	2016/01/04 15:25:49	INFO	17	indication that a method is running	ca.cafeteros.test.Log	main	41	
+3	2016/01/04 15:25:49	NOTICE	17	notice message	ca.cafeteros.test.Log	main	42	
+4	2016/01/04 15:25:49	WARNING	17	Warning message	ca.cafeteros.test.Log	main	43	
+5	2016/01/04 15:25:49	ERROR	17	error message	ca.cafeteros.test.Log	main	44	
+6	2016/01/04 15:25:49	CRITICAL	17	critical message	ca.cafeteros.test.Log	main	45	
+7	2016/01/04 15:25:49	ALERT	17	alert message	ca.cafeteros.test.Log	main	46	
+8	2016/01/04 15:25:49	EMERGENCY	17	emergency message	ca.cafeteros.test.Log	main	47	
+1	2016/01/04 15:35:30	DEBUG	17	value of a variable	ca.cafeteros.test.Log	main	40	
+2	2016/01/04 15:35:30	INFO	17	indication that a method is running	ca.cafeteros.test.Log	main	41	
+3	2016/01/04 15:35:30	NOTICE	17	notice message	ca.cafeteros.test.Log	main	42	
+4	2016/01/04 15:35:30	WARNING	17	Warning message	ca.cafeteros.test.Log	main	43	
+5	2016/01/04 15:35:30	ERROR	17	error message	ca.cafeteros.test.Log	main	44	
+6	2016/01/04 15:35:30	CRITICAL	17	critical message	ca.cafeteros.test.Log	main	45	
+7	2016/01/04 15:35:30	ALERT	17	alert message	ca.cafeteros.test.Log	main	46	
+8	2016/01/04 15:35:30	EMERGENCY	17	emergency message	ca.cafeteros.test.Log	main	47	
+1	2016/01/05 21:43:56	DEBUG	17	value of a variable	ca.cafeteros.test.Log	main	40	
+2	2016/01/05 21:43:56	INFO	17	indication that a method is running	ca.cafeteros.test.Log	main	41	
+3	2016/01/05 21:43:56	NOTICE	17	notice message	ca.cafeteros.test.Log	main	42	
+4	2016/01/05 21:43:56	WARNING	17	Warning message	ca.cafeteros.test.Log	main	43	
+5	2016/01/05 21:43:56	ERROR	17	error message	ca.cafeteros.test.Log	main	44	
+6	2016/01/05 21:43:56	CRITICAL	17	critical message	ca.cafeteros.test.Log	main	45	
+7	2016/01/05 21:43:56	ALERT	17	alert message	ca.cafeteros.test.Log	main	46	
+8	2016/01/05 21:43:56	EMERGENCY	17	emergency message	ca.cafeteros.test.Log	main	47	
