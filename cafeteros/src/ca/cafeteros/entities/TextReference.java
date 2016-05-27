@@ -2,6 +2,7 @@ package ca.cafeteros.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
@@ -20,24 +21,24 @@ public class TextReference implements Serializable {
 	@Id
 	@SequenceGenerator(name = "texts_id_seq", sequenceName = "texts_id_seq", allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "texts_id_seq")
-	@Column(name="id", updatable=false, unique=true)
+	@Column(name="id", nullable=false, updatable=false, unique=true)
 	private Integer id;
 	
 	@Column(name="\"created\"", insertable = false, updatable = false, nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
 	
-	@Column(name="\"field\"", nullable=true, unique=false)
-	private String field;
-
 	@Column(name="\"modified\"", insertable = false, updatable = false, nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modified;
 	
+	@Column(name="\"field\"", nullable=true, unique=false)
+	private String field;
+	
 	@Column(name="\"table\"", nullable=true, unique=false)
 	private String table;
 	
-	@OneToMany(mappedBy="textReference")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="textReference", orphanRemoval = true)
 	private List<Text> texts;
 
 	public TextReference() {
@@ -83,7 +84,53 @@ public class TextReference implements Serializable {
 		for(String line : lines){
 			Text textEntity = new Text();
 			textEntity.setText(line);
+			textEntity.setTextReference(this);
 			texts.add(textEntity);
+		}
+	}
+	
+	public String getText(){
+		String text = "";
+		
+		for(Text line : texts){
+			text += line.getText();
+		}
+		
+		return text;
+	}
+	
+	public static void main(String[] args){
+		
+		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("cafeteros");
+		
+		try{
+    		
+    		EntityManager em = emfactory.createEntityManager();	
+    		
+    		try{
+    			em.getTransaction().begin();
+    			TextReference testText = new TextReference();
+    			testText.setField("none, this is a test");
+    			testText.setTable("none, this is a test");
+    			testText.setText("1234askd;jf ;als;lkasjd ;sdfkjfdljas alflhsadf lahsdfuchuq qpeirupqoi q[omvxzcnvm[ qiuewpr  nbcnvbuereui c,nmbvc,x oqieyroqy bnbcxzncbv ekqwjjq;ew qwrhlerh lqwhreqe qfsafhdfyosidu dsfoiuyidfia foaudsfy brneqbe, ttr vy yetbvymretvye  yetv ermtyver t emrnbvtymer vertyvntr yv tey gfin");
+    			em.persist(testText);
+				em.getTransaction().commit();
+				
+			}catch(Exception ex){
+				System.out.println("Error while persisting the new team in the database");
+				//System.out.println(ex.getMessage());
+			}finally{
+				System.out.println("Closing the entity manager");
+				em.clear();
+				em.close();
+			}
+    		
+    	}catch (IllegalStateException ex){
+    		System.out.println("Can not create connection to the database because entity manager has been closed.");
+    	}
+		
+		finally{
+			emfactory.close();
 		}
 	}
 }
