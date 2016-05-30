@@ -8,14 +8,14 @@
 <c:set var="subMenuActive" value="Team" scope="request"/>
 <c:set var="subContent" scope="request">
 	<h2>${teamBean.team.name }</h2>
-	<div>${teamBean.team.introduction}</div>
+	<div>${teamBean.team.introduction.text}</div>
 	<div>
 		<h3>Description:</h3>
-		<div>${teamBean.team.description}</div>
+		<div>${teamBean.team.description.text}</div>
 	</div>
 	<div>
 		<h3>Agreement:</h3>
-		<div>${teamBean.team.agreement}</div>
+		<div>${teamBean.team.agreement.text}</div>
 	</div>
 	<c:if test="${!sessionUser.isTeamMember(teamBean.team)}">
 		<a href="${pageContext.request.contextPath}/team/register/${team.urlEncodedName}" class="btn btn-primary btn-lg">Start playing with this team</a>

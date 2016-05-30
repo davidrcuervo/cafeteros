@@ -19,7 +19,7 @@
 						<h3 class="text-center">${team.name}</h3>
 					</div>
 				</a>
-				<div class="caption text-center">${team.introduction}</div>	
+				<div class="caption text-center">${team.introduction.text}</div>	
 			</div>
 		</c:forEach>
 		<c:if test="${sessionUser.isExecutiveBoardMember}">

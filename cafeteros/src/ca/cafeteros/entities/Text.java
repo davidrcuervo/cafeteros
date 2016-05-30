@@ -89,6 +89,10 @@ public class Text extends DbTable implements Serializable {
 		this.text = text;
 	}
 	
+	public void setTextReference(TextReference textReference){
+		this.textReference = textReference;
+	}
+	
 	public static List<String> formatTextInList(String text){
 		
 		int size = 254;
