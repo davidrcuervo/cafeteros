@@ -46,9 +46,9 @@ public class Team extends HttpServlet {
 		log.info("Executing adding team servlet");
 		
 		pathParts = request.getPathInfo().split("/");
-		String teamName = request.getPathInfo().substring(request.getPathInfo().lastIndexOf("/") + 1);
+		String urlEncodedName = request.getPathInfo().substring(request.getPathInfo().lastIndexOf("/") + 1);
 		
-		ca.cafeteros.entities.Team team = db.getTeamFromName(teamName);		
+		ca.cafeteros.entities.Team team = db.getTeamFromUrlEncodedName(urlEncodedName);		
 		if(request.getAttribute("team") == null){
 			request.setAttribute("team", team);
 		}else{
@@ -61,7 +61,7 @@ public class Team extends HttpServlet {
 		if(pathParts[1].equals("add")){
 			request.getRequestDispatcher(ADD_JSP_FILE).forward(request, response);
 		
-		}else if(pathParts[1].equals(team.getName())){
+		}else if(pathParts[1].equals(team.getUrlEncodedName())){
 			request.getRequestDispatcher(TEAM_JSP_FILE).forward(request, response);
 		
 		}else if(team.getName() != null && !team.getName().isEmpty()){
@@ -150,10 +150,10 @@ public class Team extends HttpServlet {
 		log.info("Enrolling user to a team");
 		
 		ParameterValue parameterValue = db.getParameterValue("player status in team", "requested");
-		String teamName = request.getPathInfo().substring(request.getPathInfo().lastIndexOf("/") + 1);
+		String urlEncodedName = request.getPathInfo().substring(request.getPathInfo().lastIndexOf("/") + 1);
 		
-		if(teamName.equals((String)request.getParameter("teamName"))){
-			ca.cafeteros.entities.Team team = db.getTeamFromName(teamName);
+		if(urlEncodedName.equals((String)request.getParameter("urlEncodedName"))){
+			ca.cafeteros.entities.Team team = db.getTeamFromUrlEncodedName(urlEncodedName);
 			User user = db.getUserByEmail(request.getParameter("userEmail"));
 			
 			if(request.getParameter("acceptAgreement") != null && request.getParameter("acceptAgreement").equals("oui")){
@@ -174,7 +174,7 @@ public class Team extends HttpServlet {
 				doGet(request, response);
 			}
 		}else{
-			log.error("form does not match with the url page. teamName in form: " + (String)request.getParameter("teamName") + " teamName in URL: " + teamName);
+			log.error("form does not match with the url page. teamName in form: " + (String)request.getParameter("teamName") + " teamName in URL: " + urlEncodedName);
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		}
 	}
@@ -182,15 +182,14 @@ public class Team extends HttpServlet {
 	private void changePlayerStatus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		log.info("Changing status of player in a team");
 		
-		String teamName = request.getPathInfo().substring(request.getPathInfo().lastIndexOf("/") + 1);
-		String teamNameForm = (String)request.getParameter("teamName");
+		String urlEncodedName = request.getPathInfo().substring(request.getPathInfo().lastIndexOf("/") + 1);
+		String teamUrlEncodedNameInForm = (String)request.getParameter("urlEncodedName");
 		ca.cafeteros.beans.SessionUser userBean = (ca.cafeteros.beans.SessionUser)request.getAttribute("sessionUser");
-		ca.cafeteros.entities.Team team = db.getTeamFromName(teamName);
+		ca.cafeteros.entities.Team team = db.getTeamFromUrlEncodedName(urlEncodedName);
 		User user = db.getUserByEmail(request.getParameter("playerEmail"));
 		
 		try{
-			if(teamName.equals(teamNameForm) && userBean.isTeamManager(team)){
-				
+			if(urlEncodedName.equals(teamUrlEncodedNameInForm) && userBean.isTeamManager(team)){
 				
 				List<Detail> playerEnrollmentStatus= db.getDetails("player status in team", team.getId(), user.getId());
 				Detail playerStatus = playerEnrollmentStatus.get(0);

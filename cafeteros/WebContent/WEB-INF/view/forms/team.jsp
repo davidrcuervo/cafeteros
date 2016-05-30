@@ -68,6 +68,7 @@
 			</div>
 		</div>
 		
+		<input type="hidden" name="urlEncodedName" value="${team.urlEncodedName }"/>
 		<button type="submit" name="submit" value="add" class="btn btn-primary btn-lg btn-block">
 			<span class="glyphicon glyphicon-plus"></span> ADD TEAM
 		</button>

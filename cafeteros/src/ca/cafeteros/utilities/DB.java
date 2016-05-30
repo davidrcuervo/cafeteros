@@ -195,13 +195,13 @@ public class DB {
     	 return teams;
     }
 
-    public Team getTeamFromName(String teamName){
-    	log.info("Getting team from name. teamName: " + teamName);
+    public Team getTeamFromUrlEncodedName(String urlEncodedName){
+    	log.info("Getting team from Url Encoded Name. $urlEncodedName: " + urlEncodedName);
     	Team team = new Team();
     	
     	try{
     		EntityManager em = emfactory.createEntityManager();
-    		team = em.createNamedQuery("Team.findByName", Team.class).setParameter("teamName", teamName).getSingleResult();
+    		team = em.createNamedQuery("Team.findByUrlEncodedName", Team.class).setParameter("urlEncodedName", urlEncodedName).getSingleResult();
     		em.clear();
     		em.close();	
     	}catch(Exception ex){

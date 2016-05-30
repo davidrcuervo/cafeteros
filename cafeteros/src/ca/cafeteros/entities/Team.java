@@ -15,6 +15,7 @@ import ca.cafeteros.utilities.Logger;
 @NamedQueries({
 	@NamedQuery(name="Team.findAll", query="SELECT t FROM Team t"),
 	@NamedQuery(name="Team.findByName", query="SELECT t FROM Team t WHERE t.name = :teamName"),
+	@NamedQuery(name="Team.findByUrlEncodedName", query="SELECT t FROM Team t WHERE t.urlEncodedName = :urlEncodedName"),
 })
 
 public class Team extends DbTable implements Serializable {
@@ -46,6 +47,9 @@ public class Team extends DbTable implements Serializable {
 	
 	@Column(name="\"name\"", nullable=false, unique=true)
 	private String name;
+	
+	@Column(name="\"urlencodedname\"", nullable=false, unique=true)
+	private String urlEncodedName;
 	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name="\"description\"", nullable=true, unique=true)
@@ -156,8 +160,8 @@ public class Team extends DbTable implements Serializable {
 	}
 	
 	public String getUrlEncodedName(){
-		log.info("encoding name of the team to URL standar");
-		
+		log.info("getting named Url Encoded. $nameUrlEncoded = " + this.urlEncodedName);
+		/* 
 		String result;
 		
 		try{
@@ -165,8 +169,19 @@ public class Team extends DbTable implements Serializable {
 		}catch(UnsupportedEncodingException ex){
 			result = "none";
 		}
+		*/
+		return this.urlEncodedName;
+	}
+	
+	private void setUrlEncodedName(){
+		log.info("encoding name of the team to URL standar");
 		
-		return result;
+		try{
+			this.urlEncodedName = URLEncoder.encode(this.name, "UTF-8");
+		}catch(UnsupportedEncodingException ex){
+			log.critical("Wrong collation encoder");
+			addError("name", "Make sure that the name of the team doesn't have anormal characters");
+		}
 	}
 
 	public void setName(String name) {
@@ -181,5 +196,6 @@ public class Team extends DbTable implements Serializable {
 		}
 		
 		this.name = name;
+		setUrlEncodedName();
 	}
 }
