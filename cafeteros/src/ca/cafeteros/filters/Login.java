@@ -36,9 +36,9 @@ public class Login implements Filter {
 		
 		log.debug("context path: " + httpReq.getContextPath());
 		log.debug("path: " + path);
-		log.debug("first subpath: " + pathParts[1]);
+		//log.debug("first subpath: " + pathParts[1]);
 		
-		if(pathParts[1].equals("ajax") || pathParts[1].equals("assets")){
+		if(pathParts.length > 0 && (pathParts[1].equals("ajax") || pathParts[1].equals("assets"))){
 			//DO NOTHING
 			log.debug("doing nothing in filter");
 		} else {

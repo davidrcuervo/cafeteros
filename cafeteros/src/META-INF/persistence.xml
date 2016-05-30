@@ -13,10 +13,10 @@
 		<class>ca.cafeteros.entities.Detail</class>
 		<class>ca.cafeteros.entities.TextReference</class>
 		<properties>
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/cafeteros"/>
-			<property name="javax.persistence.jdbc.user" value="myself"/>
-			<property name="javax.persistence.jdbc.password" value="www.myself.com"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://db.la-etienda.lan:5432/dev_cafeteros"/>
+			<property name="javax.persistence.jdbc.user" value="cafeteros"/>
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+			<property name="javax.persistence.jdbc.password" value="U2TfFs2YpWub5PB"/>
 		</properties>
 	</persistence-unit>
 </persistence>
