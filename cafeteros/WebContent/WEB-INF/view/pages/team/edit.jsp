@@ -4,7 +4,7 @@
 
 <c:set var="subMenuActive" value="Edit" scope="request"/>
 <c:set var="subContent" scope="request">
-	<h3>Add new Team</h3>
+	<h3>Edit Team</h3>
 	<div>${teamForm}</div>
 </c:set>
 
