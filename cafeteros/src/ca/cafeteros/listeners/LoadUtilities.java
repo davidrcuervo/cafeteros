@@ -78,7 +78,7 @@ public class LoadUtilities implements ServletContextListener {
     		
     		db = new DB(log, emfactory);
     		sc.setAttribute("db", db);
-    		sc.setAttribute("EntityManagerFactory", emfactory);
+    		//sc.setAttribute("EntityManagerFactory", emfactory);
     		
     	}catch (IllegalStateException ex){
     		log.emergency("Can not create connection to the database because entity manager has been closed.");

@@ -91,8 +91,8 @@ public class Team extends HttpServlet {
 		
 		if(request.getParameter("submit") != null){
 			
-			if(request.getParameter("submit").equals("add"))
-				add(request, response);
+			if(request.getParameter("submit").equals("add") || request.getParameter("submit").equals("edit"))
+				addOrEdit(request, response);
 			
 			else if(request.getParameter("submit").equals("enrollUser"))
 				enroll(request, response);
@@ -116,33 +116,61 @@ public class Team extends HttpServlet {
 		}
 	}
 	
-	private void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		log.info("Adding team to the club");
+	private void addOrEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		log.info("Adding or editing a team");
 		
-		//Integer descriptionId = db.addText(request.getParameter("teamDescription"));
-		//Integer agreementId = db.addText(request.getParameter("teamEnrollmentAgreement"));
-		//Integer groupId = db.getNextGroupIdInText();
-		
-		ca.cafeteros.entities.Team team = new ca.cafeteros.entities.Team(log);
-		team.setName(request.getParameter("teamName"));
-		team.setIntroduction(request.getParameter("teamIntroduction"));
-		team.setDescription(request.getParameter("teamDescription"));
-		team.setAgreement(request.getParameter("teamEnrollmentAgreement"));
-		
-		if(team.getErrors().size() > 0){
-			request.setAttribute("team", team);
-			doGet(request, response);
-		}else{
-			try{
-				db.save(team);
-				response.sendRedirect(request.getContextPath() + ADDTEAM_THANKYOU_PAGE);
+		try{
+			EntityManager em = db.getEntityManager();
+			em.getTransaction().begin();
+			
+			ca.cafeteros.entities.Team team;
+			if(((String)request.getParameter("submit")).equals("add")){
+				team = new ca.cafeteros.entities.Team(log);
+			}else{
+				ca.cafeteros.entities.Team teamTemp = db.getTeamFromUrlEncodedName((String)request.getParameter("urlEncodedName"));
+				team = em.find(ca.cafeteros.entities.Team.class, teamTemp.getId());
+			}
+			
+			team.setName(request.getParameter("teamName"));
+			team.setIntroduction(request.getParameter("teamIntroduction"));
+			team.setDescription(request.getParameter("teamDescription"));
+			team.setAgreement(request.getParameter("teamEnrollmentAgreement"));
+			
+			if(team.getErrors().size() <= 0){
 				
-			}catch(IOException ex){
-				log.error(ex.getMessage());
-				team.addError("addTeam", "An internal error ocurred while creating the new team");
+				try{
+					if(request.getParameter("submit").equals("add")){
+						em.persist(team);
+					}
+					em.flush();
+					em.getTransaction().commit();
+					
+				}catch(Exception ex){
+					try{
+						log.error(ex.getMessage());
+						team.addError("addTeam", "An internal error ocurred while creating the new team");
+						em.getTransaction().rollback();
+					}catch(RuntimeException ex1){
+						log.error(ex.getMessage());
+						team.addError("addTeam", "An internal error ocurred while creating the new team");
+					}
+				}
+			}
+			
+			
+			em.clear();
+			em.close();
+			
+			if(team.getErrors().size() > 0){
 				request.setAttribute("team", team);
 				doGet(request, response);
+			}else{
+				response.sendRedirect(request.getContextPath() + ADDTEAM_THANKYOU_PAGE);
 			}
+			
+		}catch(Exception ex){
+			log.error(ex.getMessage());
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
 	}
 

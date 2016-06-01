@@ -69,9 +69,7 @@
 		</div>
 		
 		<input type="hidden" name="urlEncodedName" value="${team.urlEncodedName }"/>
-		<button type="submit" name="submit" value="add" class="btn btn-primary btn-lg btn-block">
-			<span class="glyphicon glyphicon-plus"></span> ADD TEAM
-		</button>
+		<button type="submit" name="submit" value="${submitValue}" class="btn btn-primary btn-lg btn-block">${buttonContent}</button>
 		<c:if test="${team.errors['addTeam'] != null}">
 			<div class="text-danger text-center">
 				<c:forEach var="error" items="${team.errors['addTeam'] }">

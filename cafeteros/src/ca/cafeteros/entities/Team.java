@@ -37,7 +37,7 @@ public class Team extends DbTable implements Serializable {
 	@Column(name="\"descriptionId\"", nullable=true, unique=false)
 	private Integer descriptionId;
 	*/
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@JoinColumn(name="\"introduction\"", nullable=false, unique=true)
 	private TextReference introduction;
 	
@@ -51,11 +51,11 @@ public class Team extends DbTable implements Serializable {
 	@Column(name="\"urlencodedname\"", nullable=false, unique=true)
 	private String urlEncodedName;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@JoinColumn(name="\"description\"", nullable=true, unique=true)
 	private TextReference description;
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@JoinColumn(name="\"agreement\"", nullable=false, unique=true)
 	private TextReference agreement;
 	

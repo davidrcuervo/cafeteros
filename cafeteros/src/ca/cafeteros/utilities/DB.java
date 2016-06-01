@@ -27,6 +27,22 @@ public class DB {
     	this.emfactory = emfactory; 
     }
     
+    public EntityManager getEntityManager() throws IOException{
+    	log.info("getting entity manager");
+    	
+    	EntityManager em;
+    	
+    	try{
+    		em = emfactory.createEntityManager();
+    	}catch(IllegalStateException ex){
+			
+			log.critical("Exception has thrown when trying to create entity manager, or getting transaction from entity manager, or begin has not been closed correctly");
+			throw new IOException("It has not been possible to create an entity manager");
+		}
+    	
+    	return em;
+    }
+    
     public void save(DbTable table) throws IOException{
     	log.info("Persisting object in the database...");
     	   	
