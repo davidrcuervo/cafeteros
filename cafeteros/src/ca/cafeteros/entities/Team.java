@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.net.URLEncoder;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 //import com.sun.org.apache.xml.internal.security.encryption.AgreementMethod;
@@ -26,17 +27,11 @@ public class Team extends DbTable implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teams_id_seq")
 	@Column(name="id", updatable=false, unique=true)
 	private Integer id;
-	/*
-	@Column(name="\"agreementId\"", nullable=false, unique=true)
-	private Integer agreementId;
-	*/
+	
 	@Column(name="\"created\"", insertable = false, updatable = false, nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
-	/*
-	@Column(name="\"descriptionId\"", nullable=true, unique=false)
-	private Integer descriptionId;
-	*/
+	
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	@JoinColumn(name="\"introduction\"", nullable=false, unique=true)
 	private TextReference introduction;
@@ -59,31 +54,35 @@ public class Team extends DbTable implements Serializable {
 	@JoinColumn(name="\"agreement\"", nullable=false, unique=true)
 	private TextReference agreement;
 	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name="\"members\"", nullable=true, unique=true)
+	private DetailIndex members;
+	
 	public Team() {
 		super();
+		initObjects();
 	}
 	
 	public Team(Logger log){
 		super(log);
+		initObjects();
+		
+	}
+	
+	private void initObjects(){
+		this.agreement = new TextReference();
+		this.introduction = new TextReference();
+		this.description = new TextReference();
+		this.members = new DetailIndex();
 	}
 
 	public Integer getId() {
 		return this.id;
 	}
-/*
-	public void setAgreementId(Integer agreementId) {
-		log.info("Setting agreement id. aggrementId: " + Integer.toString(agreementId));
-		
-		if(agreementId == 0){
-			addError("enrollmentAgreement", "There was and error while registering the enrrollment agreement for this team");
-		}
-		this.agreementId = agreementId;
-	}
-*/	
+
 	public void setAgreement(String agreement){
 		log.info("Setting agreement. agreement: \"" + agreement + "\"");
 		
-		this.agreement = new TextReference();
 		this.agreement.setField("agreement");
 		this.agreement.setTable("Team");
 		this.agreement.setText(agreement);
@@ -98,30 +97,15 @@ public class Team extends DbTable implements Serializable {
 	public Date getCreated() {
 		return this.created;
 	}
-/*
-	public void setDescriptionId(Integer descriptionId) {
-		log.info("Setting description identifier. descriptionId: " + Integer.toString(descriptionId));
-		
-		if(descriptionId == 0){
-			addError("enrollmentAgreement", "There was and error while registering the team description");
-		}
-		
-		this.descriptionId = descriptionId;
-	}
-	*/
+
 	public void setDescription(String description){
 		log.info("Setting description. description: \"" + description + "\"");
 		
-		this.description = new TextReference();
 		this.description.setField("description");
 		this.description.setTable("Teams");
 		this.description.setText(description);
 	}
-/*	
-	public Integer getDescriptionId() {
-		return this.descriptionId;
-	}
-*/	
+	
 	public TextReference getDescription(){
 		log.info("getting description");
 		
@@ -145,7 +129,6 @@ public class Team extends DbTable implements Serializable {
 			}
 		}
 		
-		this.introduction = new TextReference();
 		this.introduction.setField("introduction");
 		this.introduction.setTable("Teams");
 		this.introduction.setText(introduction);
@@ -161,15 +144,7 @@ public class Team extends DbTable implements Serializable {
 	
 	public String getUrlEncodedName(){
 		log.info("getting named Url Encoded. $nameUrlEncoded = " + this.urlEncodedName);
-		/* 
-		String result;
 		
-		try{
-			result = URLEncoder.encode(name, "UTF-8");
-		}catch(UnsupportedEncodingException ex){
-			result = "none";
-		}
-		*/
 		return this.urlEncodedName;
 	}
 	
@@ -185,7 +160,7 @@ public class Team extends DbTable implements Serializable {
 	}
 
 	public void setName(String name) {
-		log.info("Settin name for new team. name: " + name);
+		log.info("Setting name for new team. name: " + name);
 		
 		if(name == null || name.isEmpty()){
 			addError("name", "The team name is empty, make sure that you put a unique name to the team");
@@ -196,6 +171,45 @@ public class Team extends DbTable implements Serializable {
 		}
 		
 		this.name = name;
+		this.members.setTable("Teams");
 		setUrlEncodedName();
+	}
+	
+	public List<Detail> getMembers(){
+		log.info("Getting list of IDs of members of team. $teamURL: " + this.getUrlEncodedName());
+		
+		return members.getDetails();
+	}
+	
+	public void changeMemberStatus(User user, ParameterValue status){
+		log.info("Adding request to team. $teamName: " + this.name);
+		
+		Boolean flag = true;
+		
+		if(user == null){
+			
+		}else{
+			log.info("Changing status of player. $userName: " + user.getFname() + user.getLname() + " $newStatus: " + status.getValue());
+			
+			for(Detail member : members.getDetails()){
+				
+				if(member.getTablebId() == user.getId()){
+					log.debug("This user has already request to be player of the team.");
+					member.setParameterValue(status);
+					
+					flag = false;
+					break;
+				}
+			}
+			
+			if(flag){
+				Detail member = new Detail();
+				member.setParameterValue(status);
+				member.setTableaId(this.getId());
+				member.setTablebId(user.getId());
+				member.setDetailIndex(this.members);
+				members.getDetails().add(member);
+			}
+		}
 	}
 }

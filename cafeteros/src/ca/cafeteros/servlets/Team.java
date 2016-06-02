@@ -177,22 +177,41 @@ public class Team extends HttpServlet {
 	private void enroll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		log.info("Enrolling user to a team");
 		
-		ParameterValue parameterValue = db.getParameterValue("player status in team", "requested");
+		//ParameterValue parameterValue = db.getParameterValue("player status in team", "requested");
+		int statusId = db.getParameterValue("player status in team", "requested").getId();
 		String urlEncodedName = request.getPathInfo().substring(request.getPathInfo().lastIndexOf("/") + 1);
 		
 		if(urlEncodedName.equals((String)request.getParameter("urlEncodedName"))){
-			ca.cafeteros.entities.Team team = db.getTeamFromUrlEncodedName(urlEncodedName);
-			User user = db.getUserByEmail(request.getParameter("userEmail"));
+			ca.cafeteros.entities.Team teamTemp = db.getTeamFromUrlEncodedName(urlEncodedName);
+			User tempUser = db.getUserByEmail(request.getParameter("userEmail"));
 			
 			if(request.getParameter("acceptAgreement") != null && request.getParameter("acceptAgreement").equals("oui")){
 				
 				try{
+					EntityManager em = db.getEntityManager();
+					em.getTransaction().begin();
+					
+					ca.cafeteros.entities.Team team = em.find(ca.cafeteros.entities.Team.class, teamTemp.getId());
+					User user = em.find(User.class, tempUser.getId());
+					ParameterValue status = em.find(ParameterValue.class, statusId);
+					
+					team.changeMemberStatus(user, status);
+					
+					em.flush();
+					em.getTransaction().commit();
+					em.clear();
+					em.close();
+					response.sendRedirect(request.getContextPath() + REGISTERUSER_THANKYOU_PAGE);
+					
+					
+					/*
 					Detail detail = new Detail();
 					detail.setTableaId(team.getId());
 					detail.setTablebId(user.getId());
 					detail.setParameterValue(parameterValue);
 					db.save(detail);
 					response.sendRedirect(request.getContextPath() + REGISTERUSER_THANKYOU_PAGE);
+					*/
 				}catch(Exception ex){
 					request.setAttribute("registrationError", "An internal error ocurred while trying to submit your request");
 					doGet(request, response);

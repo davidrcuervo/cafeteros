@@ -1,6 +1,7 @@
 package ca.cafeteros.beans;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import ca.cafeteros.utilities.DB;
@@ -31,6 +32,47 @@ public class Team implements java.io.Serializable{
 		return this.team;
 	}
 	
+	public List<User> getCandidates(){
+		log.info("Getting candidates to team. $teamURL: " + team.getUrlEncodedName());
+		
+		List<User> candidates = new ArrayList<User>();
+		User user;
+		int parameterValueID = db.getParameterValue("player status in team", "requested").getId();
+		
+		for(Detail member : team.getMembers()){
+			
+			if(member.getParameterValue().getId() == parameterValueID){
+				
+				user = db.getUserById(member.getTablebId());
+				candidates.add(user);
+			}
+		}
+		
+		return candidates;
+	}
+	
+	public List<User> getPlayers(){
+		log.info("Getting players of team. $teamURL: " + team.getUrlEncodedName());
+		
+		User user;
+		List<User> players = new ArrayList<User>();
+		
+		int parameterValueID = db.getParameterValue("player status in team", "player").getId();
+		
+		for(Detail member : team.getMembers()){
+			
+			if(member.getParameterValue().getId() == parameterValueID){
+				
+				user = db.getUserById(member.getTablebId());
+				players.add(user);
+			}
+		}
+		
+		return players;
+		
+	}
+	
+	/*
 	public Map<String, User> getPlayers(){
 		log.info("finding player for team");
 		
@@ -50,7 +92,7 @@ public class Team implements java.io.Serializable{
 		}
 		return players;
 	}
-	
+	*/
 	public List<ParameterValue> getAllPlayerStatus(){
 		log.info("Getting all available status for players");
 		

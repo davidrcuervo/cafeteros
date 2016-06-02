@@ -149,10 +149,11 @@ public class SessionUser implements java.io.Serializable{
 					break;
 				}
 			}
-			
+			/*
 			if(isRole("root")){
 				result=true;
 			}
+			*/
 			
 		}catch(Exception ex){
 			log.error(ex.getMessage());

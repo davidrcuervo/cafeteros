@@ -48,6 +48,10 @@ public class Detail extends DbTable implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="\"parameter_valueId\"")
 	private ParameterValue parameterValue;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="\"index\"")
+	private DetailIndex detailIndex;
 
 	public Detail() {
 	}
@@ -102,6 +106,10 @@ public class Detail extends DbTable implements Serializable {
 	
 	public void setParameterValue(ParameterValue parameterValue){
 		this.parameterValue = parameterValue;
+	}
+	
+	public void setDetailIndex(DetailIndex detailIndex){
+		this.detailIndex = detailIndex;
 	}
 
 }

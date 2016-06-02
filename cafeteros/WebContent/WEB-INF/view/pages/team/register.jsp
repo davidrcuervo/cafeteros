@@ -5,7 +5,7 @@
 	<c:if test="${!sessionUser.isTeamMember(teamBean.team)}">
 		<div>
 			<h3>Please read and sign the enrollment agreement</h3>
-			<div>${team.agreement}</div>
+			<div>${team.agreement.text}</div>
 		</div>
 		<form method="post" name="enrollme">
 			<div class="checkbox">
@@ -13,7 +13,7 @@
 					<input type="checkbox" name="acceptAgreement" value="oui"> I have read and I agree with the enrollment agreement.
 				</label>
 			</div>
-			<input type="hidden" name="teamName" value="${team.name}" />
+			<input type="hidden" name="urlEncodedName" value="${team.urlEncodedName}" />
 			<input type="hidden" name="userEmail" value="${sessionUser.email}" />
 			<button type="submit" name="submit" value="enrollUser" class="btn btn-primary btn-lg">Enroll me. Now</button>
 		</form>

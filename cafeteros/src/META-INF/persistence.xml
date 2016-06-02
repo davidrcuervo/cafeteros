@@ -12,6 +12,7 @@
 		<class>ca.cafeteros.entities.ParameterValue</class>
 		<class>ca.cafeteros.entities.Detail</class>
 		<class>ca.cafeteros.entities.TextReference</class>
+		<class>ca.cafeteros.entities.DetailIndex</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://db.la-etienda.lan:5432/dev_cafeteros"/>
 			<property name="javax.persistence.jdbc.user" value="cafeteros"/>
