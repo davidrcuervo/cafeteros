@@ -2,7 +2,7 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<comment>Configuration properties to run Logger on web app</comment>
-	<entry key="saveTO">console</entry>
-	<entry key="min-level">debug</entry>
+	<entry key="saveTO">file</entry>
+	<entry key="min-level">error</entry>
 	<entry key="user">Logger</entry>
 </properties>

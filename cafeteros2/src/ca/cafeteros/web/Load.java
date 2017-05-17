@@ -85,7 +85,6 @@ public class Load implements ServletContextListener{
 		}
 		
 		//start multimedia library
-		/*
 		try{
 			mediaManager = new MediaManager(directory);
 			sc.setAttribute("mediaManager", mediaManager);
@@ -94,7 +93,6 @@ public class Load implements ServletContextListener{
 			log.exception(ex);
 			exit();
 		}
-		*/
 		
 		//start notes library
 		try{
@@ -110,6 +108,14 @@ public class Load implements ServletContextListener{
 		try{
 			langManager = new LangManager(directory, logManager.createJavaLogger());
 			sc.setAttribute("langManager", langManager);
+			
+			try{
+				langManager.importLang();
+				
+			}catch(SqlException ex){
+				log.exception(ex);
+			}
+			
 			log.info("Notes library has started successfully");
 		}catch(LangException ex){
 			log.exception(ex);

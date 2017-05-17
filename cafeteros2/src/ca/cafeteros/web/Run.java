@@ -2,28 +2,29 @@ package ca.cafeteros.web;
 
 import java.io.File;
 import com.laetienda.tomcat.Controller;
+import com.laetienda.tomcat.TomcatException;
 
 public class Run {
-	
-	private File directory;
-	
-	private Run(){
-		directory = new File("");
-	}
 
 	public static void main(String[] args) {
 		
 		System.out.println("Starting cafeteros website");
 		
-		Run run = new Run();
+		File directory = new File("");
 		
 		try{
-			Controller tomcat  = new Controller(run.directory);
+			Controller tomcat  = new Controller(directory);
 			tomcat.parseArguments(args);
 			
-			//System.out.println(run.directory.getAbsolutePath() + File.separator + "WebContent");
-		}catch(Exception ex){
-			ex.printStackTrace();
+			//System.out.println(directory.getAbsolutePath() + File.separator + "WebContent");
+		}catch(TomcatException ex){
+			if(ex.getParent() != null){
+				System.err.println(ex.getMessage());
+				ex.getParent().printStackTrace();
+			}else{
+				ex.printStackTrace();
+			}
+			
 		}
 	}
 }

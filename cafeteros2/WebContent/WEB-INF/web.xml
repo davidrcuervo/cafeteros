@@ -4,6 +4,39 @@
 	<listener>
 		<listener-class>ca.cafeteros.web.Load</listener-class>
 	</listener>
+	<filter>
+		<filter-name>logger</filter-name>
+		<filter-class>com.laetienda.logger.LogFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>logger</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>lang</filter-name>
+		<filter-class>com.laetienda.lang.LangFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>lang</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>pathParts</filter-name>
+		<filter-class>com.laetienda.tomcat.PathParts</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>pathParts</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>page</filter-name>
+		<filter-class>com.laetienda.tomcat.PageFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>page</filter-name>
+		<url-pattern>/</url-pattern>
+		<url-pattern>/home</url-pattern>
+	</filter-mapping>
 	<servlet>
 		<servlet-name>raiz</servlet-name>
 		<servlet-class>ca.cafeteros.servlets.Root</servlet-class>
@@ -11,6 +44,22 @@
 	<servlet-mapping>
 		<servlet-name>raiz</servlet-name>
 		<url-pattern></url-pattern>
-		<url-pattern>/home</url-pattern>
+		<url-pattern>/home.html</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>lang</servlet-name>
+		<servlet-class>com.laetienda.lang.Servlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>lang</servlet-name>
+		<url-pattern>/lang/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>multimedia</servlet-name>
+		<servlet-class>com.laetienda.multimedia.Servlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>multimedia</servlet-name>
+		<url-pattern>/media/*</url-pattern>
 	</servlet-mapping>
 </web-app>
