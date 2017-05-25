@@ -5,7 +5,7 @@
 		
 	<!-- For linux machine --> 
 	<!-- <entry key="pathToNotes">/media/storage/home/myself/MyFiles/MyNotes</entry> -->
-	<entry key="pandoc">/usr/bin/pandoc</entry>
+	<entry key="pandoc">/usr/local/bin/pandoc</entry>
 	
 	<!-- For windows machine -->
 	<!-- 

@@ -36,6 +36,8 @@
 		<filter-name>page</filter-name>
 		<url-pattern>/</url-pattern>
 		<url-pattern>/home</url-pattern>
+		<url-pattern>/folleto/*</url-pattern>
+		<url-pattern>/2017/*</url-pattern>
 	</filter-mapping>
 	<servlet>
 		<servlet-name>raiz</servlet-name>
@@ -45,6 +47,15 @@
 		<servlet-name>raiz</servlet-name>
 		<url-pattern></url-pattern>
 		<url-pattern>/home.html</url-pattern>
+		<url-pattern>/folleto/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>2017</servlet-name>
+		<servlet-class>com.laetienda.notes.Servlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>2017</servlet-name>
+		<url-pattern>/2017/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>lang</servlet-name>

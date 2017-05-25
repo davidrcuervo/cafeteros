@@ -5,7 +5,7 @@
 	<entry key="db_provider">postgres</entry>
 	<entry key="PERSISTENCE_UNIT_NAME">ca.cafeteros.web</entry>
 	<entry key="database">cafeteros</entry>
-	<entry key="db_host">db.la-etienda.lan</entry>
+	<entry key="db_host">localhost</entry>
 	<entry key="db_port">5432</entry>
 	<entry key="javax.persistence.jdbc.user">cafeteros</entry>
 	<entry key="javax.persistence.jdbc.password">www.myself.com</entry>

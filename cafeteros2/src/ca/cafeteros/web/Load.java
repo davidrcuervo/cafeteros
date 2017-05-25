@@ -5,7 +5,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.laetienda.tomcat.Service;
 import com.laetienda.db.DbManager;
 import com.laetienda.db.SqlException;
 import com.laetienda.db.DbException;
@@ -28,35 +27,6 @@ public class Load implements ServletContextListener{
 	private DbManager dbManager;
 	private MediaManager mediaManager;
 	private NotesManager notesManager;
-	
-
-	public void contextDestroyed(ServletContextEvent arg0){
-		
-		log.info("closing cafeteros web application");
-		
-		if(notesManager != null){
-			
-		}
-		
-		if(langManager != null){
-			
-			try{
-				langManager.exportLang();
-			}catch(SqlException ex){
-				log.critical("Failed to export language to CSV file. Information might be lost");
-				log.exception(ex);
-			}
-		}
-		
-		if(dbManager != null){
-			dbManager.close();
-		}
-		
-		log.info("cafeteros web application has closed successfully");
-		if(logManager != null){
-			logManager.close();
-		}
-	}
 	
 	public void contextInitialized(ServletContextEvent arg0) {
 		
@@ -125,15 +95,45 @@ public class Load implements ServletContextListener{
 		log.info("CAFETEROS WEB APPLICATION HAS LOADED SUCCESFULLY");
 	}
 	
+	public void contextDestroyed(ServletContextEvent arg0){
+		close();
+	}
+	
+	private void close(){
+		
+		if(notesManager != null){
+			
+		}
+		
+		if(langManager != null){
+			
+			try{
+				langManager.exportLang();
+			}catch(SqlException ex){
+				log.critical("Failed to export language to CSV file. Information might be lost");
+				log.exception(ex);
+			}
+		}
+		
+		if(dbManager != null){
+			dbManager.close();
+		}
+		
+		log.info("cafeteros web application has closed successfully");
+		if(logManager != null){
+			logManager.close();
+		}
+	}
+	
 	private void exit(){
 		
-		try{
-			Service daemon = new Service(directory);
-			daemon.shutdown();
-		}catch(Exception ex1){
-			
-			ex1.printStackTrace();
-			System.exit(-1);
+		if(log == null){
+			System.out.println("Failed to start cafeteros web application");
+		}else{
+			log.critical("Failed to start cafeteros web application");
 		}
+		
+		close();
+		System.exit(-1);
 	}
 }

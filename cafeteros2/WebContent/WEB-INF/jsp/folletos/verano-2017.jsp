@@ -84,4 +84,4 @@ ${page.addScript('<script src="/assets/home.js"></script>')}
 		</div>
 	</div>
 </c:set>
-<jsp:include page="/WEB-INF/jsp/templates/web.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/jsp/templates/folleto.jsp"></jsp:include>
